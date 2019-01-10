@@ -57,10 +57,18 @@ class Register(APIView):
     def post(self, request):
         print(request.body.decode('utf-8'))
         print(type(request.body.decode('utf-8')))
+        datastr = request.body.decode('utf-8')
+        # print("======================")
+        # kv = datastr.split('&')
+        # datadict = {}
+        # for i_kv in kv:
+        #     key, value = i_kv.split('=')
+        #     datadict[key] = value
         try:
-            data = json.loads(request.body.decode('utf-8'))
+            data = json.loads(datastr)
+            # data = json.loads(data)
         except json.JSONDecodeError:
-            return InputErrorMessage("Invalid JSON body")
+             return InputErrorMessage("Invalid JSON body")
         if "username" not in data:
             return InputErrorMessage("username not provide.")
         if User.objects.filter(username=data["username"]).exists():

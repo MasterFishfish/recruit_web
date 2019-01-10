@@ -129,11 +129,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "frontend/dist/static"),
-]
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+STATICFILES_DIRS = (
+    ('css', os.path.join(STATIC_ROOT, 'css')),
+    ('img', os.path.join(STATIC_ROOT, 'img')),
+    ('js', os.path.join(STATIC_ROOT, 'js')),
+    ('fonts', os.path.join(STATIC_ROOT, 'fonts')),
+    ('plug', os.path.join(STATIC_ROOT, 'plug')),
+)
 
 
 # restful framework setting

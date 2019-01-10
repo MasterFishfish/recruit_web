@@ -9,11 +9,6 @@ import datetime
 
 today = datetime.date.today()
 
-@receiver(post_save, sender=User)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
-
 class Recruit(models.Model):
 
     belong = models.ForeignKey('Firm', verbose_name='所属公司', default='', on_delete=models.CASCADE)
