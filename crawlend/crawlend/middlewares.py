@@ -3,11 +3,16 @@
 # Define here the models for your spider middleware
 #
 # See documentation in:
-# https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+# http://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
+import queue
+import logging
 from scrapy import signals
+import requests
+from .proxies import _Proxy
+from .headers import get_header
 
-
+logger = logging.getLogger(__name__)
 class CrawlendSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
@@ -55,49 +60,146 @@ class CrawlendSpiderMiddleware(object):
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
 
+# 更改 UA 中间件
+class UAMiddleWare():
 
-class CrawlendDownloaderMiddleware(object):
-    # Not all methods need to be defined. If a method is not defined,
-    # scrapy acts as if the downloader middleware does not modify the
-    # passed objects.
+    def process_request(self, request, spider):
+        request.headers.setdefault("User-Agent", get_header()['User-Agent'])
+        logger.debug("construct request with UA: {}".format(request.headers))
+
+
+class ProxyMiddleWare():
+    def __init__(self, proxy_url):
+        self.logger = logging.getLogger(__name__)
+        self.proxy_url = proxy_url
+
+    def get_random_proxy(self):
+        try:
+            response = requests.get(self.proxy_url)
+            if response.status_code == 200:
+                proxy = response.text
+                return proxy
+        except requests.ConnectionError:
+            return False
+
+    def process_request(self, request, spider):
+        if request.meta.get('retry_times'):
+            proxy = self.get_random_proxy()
+            if proxy:
+                uri = 'https://{proxy}'.format(proxy=proxy)
+                self.logger.debug('使用代理:' + proxy)
+                request.meta['proxy'] = uri
 
     @classmethod
     def from_crawler(cls, crawler):
-        # This method is used by Scrapy to create your spiders.
-        s = cls()
-        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
-        return s
+        settings = crawler.settings
+        return cls(
+            proxy_url=settings.get('PROXY_URL')
+        )
+# # 更改代理中间件
+# class ProxyMiddleWare():
+#
+#     '''
+#     更改代理和UA的中间件
+#     说明：
+#      _Proxy() 提供 代理 IP
+#      get_headers() 提供 UA
+#
+#      策略：
+#      初始化提取 20 个 IP 入队，每次请求更换 IP 和 UA,
+#      response 和 exception 中如果请求失败，则重新发出请求
+#     如果请求成功，则重新入队该 IP
+#
+#     当队列中少于 10 个 IP ，则再从 _Proxy 中提取 20
+#
+#     '''
+#     def __init__(self):
+#         self.q = queue.Queue()
+#         # self.q_https = queue.Queue()
+#         self.p = _Proxy()
+#
+#
+#     def _enqueue(self):
+#         proxies = self.p.extract(n=20)
+#         for i in proxies:
+#             self.q.put(i)
+#         # proxies_https = self.p.extract(is_https=True, n=20)
+#         # for i in proxies_https:
+#         #     self.q_https.put(i)
+#
+#     # 在请求中植入 UA 和 header
+#     def process_request(self, request, spider):
+#
+#         self._check_remain_proxies()
+#
+#         # if 'https' in request.url:
+#         #     _proxy = self.q_https.get()
+#         # else:
+#         _proxy = self.q.get()
+#         request.meta["proxy"] = _proxy[1]
+#         # 代理索引值
+#         request.meta["proxy_index"] = _proxy[0]
+#         request.meta["dont_redirect"] = True
+#         request.meta['download_timeout'] = 5
+#         logger.debug("construct request with proxy: {}".format(request.meta["proxy"]))
+#
+#     # 遇到问题重新构造请求
+#     def process_exception(self, request, exception, spider):
+#         # logger.debug("%s exception: %s" % (request.meta["proxy"], exception))
+#         # idx = request.meta["proxy_index"]
+#         # # 删除无效 ip
+#         # self.p._delete(idx)
+#         #
+#         # return self._build_req(request)
+#         # pass
+#         pass
+#
+#
+#     def process_response(self, request, response, spider):
+#
+#         # if 'liepin' in response.url:
+#         #     return response
+#         logger.debug('current response status is {}'.format(response.status))
+#         # 请求成功
+#         if response.status == 200:
+#
+#             addr = request.meta["proxy"]
+#             # if 'https' in response.url:
+#             #     self.q_https.put((request.meta["proxy_index"], addr))
+#             # else:
+#             self.q.put((request.meta["proxy_index"], addr))
+#             return response
+#
+#         else:
+#             idx = request.meta["proxy_index"]
+#             # 删除无效 ip
+#             self.p._delete(idx)
+#             # 重新植入 UA 和 IP， 发起请求
+#
+#             return self._build_req(request)
+#
+#     def _build_req(self, request):
+#
+#         self._check_remain_proxies()
+#
+#         # 重新植入 UA 和 IP， 发起请求
+#         request.headers.setdefault("User-Agent", get_header()['User-Agent'])
+#         # if 'https' in request.url:
+#         #     _proxy = self.q_https.get()
+#         # else:
+#         _proxy = self.q.get()
+#         request.meta["proxy"] = _proxy[1]
+#         # 代理索引值
+#         request.meta["proxy_index"] = _proxy[0]
+#         new_req = request.copy()
+#
+#         return new_req
+#
+#     # 检查队列剩余 ip
+#     # 小于 10 则获取 20 ip 入队
+#     def _check_remain_proxies(self):
+#
+#         nums = self.q.qsize()
+#         if nums < 10:
+#             self._enqueue()
 
-    def process_request(self, request, spider):
-        # Called for each request that goes through the downloader
-        # middleware.
-
-        # Must either:
-        # - return None: continue processing this request
-        # - or return a Response object
-        # - or return a Request object
-        # - or raise IgnoreRequest: process_exception() methods of
-        #   installed downloader middleware will be called
-        return None
-
-    def process_response(self, request, response, spider):
-        # Called with the response returned from the downloader.
-
-        # Must either;
-        # - return a Response object
-        # - return a Request object
-        # - or raise IgnoreRequest
-        return response
-
-    def process_exception(self, request, exception, spider):
-        # Called when a download handler or a process_request()
-        # (from other downloader middleware) raises an exception.
-
-        # Must either:
-        # - return None: continue processing this exception
-        # - return a Response object: stops process_exception() chain
-        # - return a Request object: stops process_exception() chain
-        pass
-
-    def spider_opened(self, spider):
-        spider.logger.info('Spider opened: %s' % spider.name)

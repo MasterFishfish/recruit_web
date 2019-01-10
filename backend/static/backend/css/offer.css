@@ -1,0 +1,148 @@
+
+html{
+    height: 100%;
+}
+body{
+    height: 100%;
+    padding-top: 50px;
+}
+.bg{
+    /*background-image: url('../assets/pics/lani.jpg');*/
+    /*background-repeat:no-repeat;*/
+    /*background-attachment:fixed;*/
+    /*background-position:center;*/
+    /*background-size: cover;*/
+    /*background-color: #1b6d85;*/
+    /*z-index:-1;*/
+    /*padding: 20px 20px;*/
+    width: 100%;
+    /*max-height: 1000px;*/
+    margin: 0 0;
+    padding: 0 0;
+}
+.offer-con{
+    width: 100%;
+}
+
+.recj{
+   background-repeat:no-repeat;
+    background-attachment:fixed;
+    background-position:center;
+    background-size: cover;
+    background-color: #424242;
+    padding-bottom: 100px;
+}
+
+.rec-con{
+    padding-top: 50px;
+}
+
+.top-block{
+    /*margin-top: 20px;*/
+    padding-top: 20px;
+    height: 40px;
+    width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+.top-left{
+    display: inline-block;
+}
+.top-right{
+    display: inline-block;
+}
+/*.favicon{*/
+    /*height: 20px;*/
+/*}*/
+.c-mainpage{
+    color: #fff;
+    text-decoration: none;
+    /*border:1px solid #fff;*/
+}
+
+.white{
+    color: #fff;
+}
+.display{
+    margin: 10px 10px 0;
+    padding: 10px 10px;
+    /*height: ;*/
+
+}
+
+.geo-box{
+    height: 40%;
+    width: 60%;
+}
+.display-ins{
+    width: 60%;
+    height: auto;
+    margin-top: 20px;
+    /*padding-left: 70px;*/
+}
+/*salary.html*/
+.salary-bgc{
+    /*background-color: #95A098;*/
+    background-color: #CCCCCC;
+}
+
+/*salary-line.html*/
+
+.salaryline-bgc{
+    /*background-color: #7B9D9F;*/
+    background-color: #99CCCC;
+}
+/*geoshanghai.html*/
+
+.shanghai-bgc{
+    /*background-color: #99A8A1;*/
+    background-color: #EAECF0;
+}
+.display-ins-geo{
+    width: 60%;
+    height: auto;
+    margin-top: 20px;
+}
+
+/*welfare.html*/
+
+.welfare-bgc{
+    background-color: #CCCCFF;
+}
+
+/*welfare.html*/
+
+.skill-bgc{
+    background-color: #DADBE0;
+}
+
+/*scale.html*/
+.scale-bgc{
+    background-color: #EFEFEF;
+}
+
+/*major.html*/
+.major-bgc{
+    background-color: #DADBE0;
+}
+
+.display-h{
+    padding-top: 70px;
+}
+
+.lab-footer{
+    width: 70%;
+}
+
+.bott{
+    padding-bottom: 50px;
+}
+
+@media screen and (min-width: 800px) {
+    .rec-goright{
+        padding-left: 5%;
+    }
+    .rec-goleft{
+        padding-left: -20px;
+    }
+}

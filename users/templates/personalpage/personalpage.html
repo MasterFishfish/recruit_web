@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录界面</title>
+    {% load static %}
+    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'normalize.min.css' %}">
+    <link rel="stylesheet" href="{% static 'personal.css' %}">
+    <link href="{% static 'ui-choose/ui-choose.css' %}" rel="stylesheet">
+    <style>
+        .demo-box {
+            margin: 20px auto;
+            width: 100%;
+            padding: 20px;
+            border: 5px solid #ccc;
+            background: #faffe3;
+        }
+        .demo-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .demo-table caption {
+            border-bottom: 1px dashed #ccc;
+            height: 40px;
+            margin-bottom: 20px;
+            font: 18px/1.2 normal 'microsoft yahei';
+        }
+        .demo-table tr td {
+            padding: 8px 10px;
+            font: 16px/1.8 normal 'microsoft yahei';
+            vertical-align: top;
+        }
+        .ui-input {
+            vertical-align: top;
+            height: 18px;
+            font-size: 16px;
+            line-height: 20px;
+            border: 1px solid #aaa;
+            padding: 6px 8px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+	<div class="container">
+		<div id="formdiv_register" class="sub">
+          <div class="field-wrap">
+            <label>
+              Job<span class="req">*</span>
+            </label>
+            <input type="text" id="Job"/>
+          </div>
+
+          <div class="field-wrap">
+            <label>
+              Email<span class="req">*</span>
+            </label>
+            <input type="email" id="email"/>
+          </div>
+
+          <div class="field-wrap">
+            <label>
+              Tel number<span class="req">*</span>
+            </label>
+            <input type="password" id="TelNumber"/>
+          </div>
+
+		  <div class="top-row">
+		  <div class="field-wrap">
+              <label>
+                Sex(F/M)<span class="req">*</span>
+              </label>
+              <input type="text" if="Sex" />
+		  </div>
+
+		  <div class="field-wrap">
+			  <label>
+				  location<span class="req">*</span>
+              </label>
+              <input type="text" id="location"/>
+		  </div>
+		  </div>
+
+		  <div class="field-wrap">
+			  <label>
+                Favoritebrowser<span class="req">*</span>
+              </label>
+              <input type="text" id="favoritebrowser"/>
+          </div>
+		</div>
+		<div class="demo-box" class="sub">
+            <table class="demo-table">
+            <caption>choose the skills you have</caption>
+
+            <tr>
+                <!--<td><label>MULTIPLE UL</label></td>-->
+                <td><ul class="ui-choose" multiple="multiple" class="uc_03">
+                    <li>python</li>
+                    <li>java</li>
+                    <li>javascript</li>
+                    <li>C++</li>
+                    <li>nodejs</li>
+                </ul></td>
+            </tr>
+            <tr>
+                <!--<td><label>MULTIPLE UL</label></td>-->
+                <td><ul class="ui-choose" multiple="multiple" class="uc_03">
+                    <li>mysql</li>
+                    <li>mongodb</li>
+                    <li>socket</li>
+                    <li>sdk</li>
+                    <li>shell</li>
+                </ul></td>
+            </tr>
+            <tr>
+                <!--<td><label>MULTIPLE UL</label></td>-->
+                <td><ul class="ui-choose" multiple="multiple" class="uc_03">
+                    <li>django</li>
+                    <li>scrapy</li>
+                    <li>cocos</li>
+                    <li>flask</li>
+                    <li>tornado</li>
+                </ul></td>
+            </tr>
+            <tr>
+                <!--<td><label>MULTIPLE UL</label></td>-->
+                <td><ul class="ui-choose" multiple="multiple" class="uc_03">
+                    <li>pyspiders</li>
+                    <li>React</li>
+                    <li>Angular</li>
+                    <li>vuejs</li>
+                </ul></td>
+            </tr>
+            <tr>
+                <!--<td><label>MULTIPLE UL</label></td>-->
+                <td><ul class="ui-choose" multiple="multiple" class="uc_03">
+                    <li>html</li>
+                    <li>css</li>
+                    <li>Ruby</li>
+                    <li>git</li>
+                </ul></td>
+            </tr>
+            <tr>
+                <!--<td><label>MULTIPLE UL</label></td>-->
+                <td><ul class="ui-choose" multiple="multiple" class="uc_03">
+                    <li>tensorflow</li>
+                    <li>theano</li>
+                    <li>keras</li>
+                    <li>pytorch</li>
+                    <li>spark</li>
+                </ul></td>
+            </tr>
+                <!--<tr>
+                <td><label>MULTIPLE SELECT</label></td>
+                <td>
+                <select class="ui-choose" multiple="multiple" id="uc_04">
+                    <option value="a">html</option>
+                    <option value="b">php</option>
+                    <option value="c">css</option>
+                    <option value="d">javascript</option>
+                    <option value="e">nodejs</option>
+                </select>
+                </td>
+            </tr>-->
+            </table>
+        </div>
+        <button type="submit" id="submitbutton" class="button button-block"/>complete</button>
+	</div>
+  <script src="{% static 'jquery.min.js' %}"></script>
+    <script  src="{% static 'personal.js' %}"></script>
+    <script src="{% static 'ui-choose/ui-choose.js' %}"></script>
+  <script src="{% static 'ui-choose/choose.js'%}"></script>
+</body>
+</html>

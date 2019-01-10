@@ -1,3 +1,9 @@
 from django.test import TestCase
+import bs4
+def testyield():
+    yield 1
+    yield 2
 
-# Create your tests here.
+if __name__ == '__main__':
+    for i in testyield():
+        print(i)
