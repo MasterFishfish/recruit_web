@@ -14,7 +14,7 @@ diff-match-patch==20181111
 Django==1.11
 django-cors-headers==2.4.0
 django-import-export==1.1.0
-djangorestframework==3.9.0
+djangorestframework==3.11.2
 et-xmlfile==1.0.1
 hyperlink==18.0.0
 idna==2.8
