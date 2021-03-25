@@ -35,7 +35,7 @@ pyOpenSSL==18.0.0
 pypiwin32==223
 pytz==2018.7
 pywin32==224
-PyYAML==3.13
+PyYAML==5.4
 queuelib==1.5.0
 requests==2.21.0
 Scrapy==1.5.1
